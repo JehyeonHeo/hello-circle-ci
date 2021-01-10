@@ -74,7 +74,9 @@ workflows:
     # Run the welcome/run job in its own container
     jobs:
       - job_that_will_be_failed
-      - print_alert_message_when_any_job_fail
+      - print_alert_message_when_any_job_fail:
+          requires:
+            - job_that_will_be_failed
       - print_pipelineID
       - print_Myname
       - print_hello
