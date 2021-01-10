@@ -23,11 +23,20 @@ orbs:
 # Orchestrate or schedule a set of jobs
 
 jobs:
+  job_that_will_be_failed:
+    <<: *defaults
+    steps:
+      - run: return 1
+  print_alert_message_when_any_job_fail:
+    <<: *defaults
+    steps:
+      - run: 
+          command: echo "A Job failed"
+          when: on_fail
   print_pipelineID:
     <<: *defaults
     steps:
       - print_pipeline_id
-
   print_Myname:
     <<: *defaults
     steps:
@@ -64,6 +73,8 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
+      - job_that_will_be_failed
+      - print_alert_message_when_any_job_fail
       - print_pipelineID
       - print_Myname
       - print_hello
