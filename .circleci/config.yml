@@ -23,11 +23,18 @@ orbs:
 # Orchestrate or schedule a set of jobs
 
 jobs:
+  print_alert_message_when_code_fail:
+    <<: *defaults
+    steps:
+      - run: return 1
+      - run: 
+          name: "Print alert message when above run command fails"
+          command: echo "Wrong command in code"
+          when: on_fail
   print_pipelineID:
     <<: *defaults
     steps:
       - print_pipeline_id
-
   print_Myname:
     <<: *defaults
     steps:
@@ -64,6 +71,7 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
+      - print_alert_message_when_code_fail
       - print_pipelineID
       - print_Myname
       - print_hello
